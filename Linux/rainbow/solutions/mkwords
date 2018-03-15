@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for letter in a b c d e f g h i j k l m n o p q r s t u v w x y z
+do
+	# Grab 9 letter words starting with this letter out of english.txt
+	# and take the first 25.
+	grep -iE "^$letter[a-z]{8}" english.txt | head -100 >> words.txt
+done
+
+# EOF

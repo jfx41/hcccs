@@ -1,0 +1,164 @@
+#!/bin/bash
+
+#
+# NOTICE: # are comments and are ignored when executed
+#
+
+# IGNORE: Function to prompt you to hit ENTER to continue
+function prompt_user {
+	echo
+	echo -n "Press ENTER to continue ... " && read
+	echo
+	return 0
+}
+
+#
+# If you give options/arguments to a script their argument numers
+# can be accessed with $1, $2, $3, etc.
+#
+echo 'echo $1 $2'
+echo $1 $2
+
+prompt_user
+
+#
+# Setting a variable
+#
+echo 'foo="1234"' # Ignore
+foo="1234"
+
+prompt_user
+
+
+#
+# Displaying a variable
+#
+echo 'echo $foo' # Ignore
+echo $foo
+
+prompt_user
+
+#
+# Generating an MD5 with a newline (\n)
+#
+echo 'echo $foo | md5sum' # Ignore
+echo $foo | md5sum
+
+prompt_user
+
+#
+# Generating an MD5 without a newline (\n)
+# NOTICE: This MD5 is different than the above because it doesn't have \n
+#
+echo 'echo -n $foo | md5sum' # Ignore
+echo -n $foo | md5sum
+
+prompt_user
+
+#
+# Using cut to get only the MD5 and strip out the space and -
+# Generate the MD5 and cut the first portion on the space delimeter
+# NOTE: There is a space between ' '
+#
+echo "echo -n \$foo | md5sum | cut -f 1 -d ' '" # Ignore
+echo -n $foo | md5sum | cut -f 1 -d ' '
+
+prompt_user
+
+
+#
+# Capture the output of a tool or one-liner into a variable
+# Put the command(s) you want to run inside $()
+#
+echo "md5=\$(echo -n $foo | md5sum | cut -f 1 -d ' ')" # Ignore
+md5=$(echo -n $foo | md5sum | cut -f 1 -d ' ')
+
+prompt_user
+
+#
+# Display the captured output from the one-liner
+#
+echo 'echo "MD5 for $foo: $md5"'
+echo "MD5 for $foo: $md5"
+
+prompt_user
+
+#
+# Creating a file using a stream redirect
+# NOTE: A single > will create/overwrite any existing file so only use it
+# if you are creating a new file
+#
+echo 'echo "MD5 for $foo: $md5" > md5.txt' # Ignore
+echo "MD5 for $foo: $md5" > md5.txt
+
+prompt_user
+
+#
+# Appending to an existing file.
+# NOTE: We use >> because a single > will overwrite the file.  However, using
+# >> will also create the file if it doesn't exist, just like > does.
+#
+echo 'echo "DONE" >> md5.txt'
+echo "DONE" >> md5.txt
+
+prompt_user
+
+# Display next step ... ignore
+cat <<EOC
+for letter in a b c d
+do
+	echo "LETTER: \$letter"
+done
+EOC
+
+prompt_user
+
+
+#
+# A loop that processes each argument
+#
+for letter in a b c d
+do
+	echo "LETTER: $letter"
+done
+
+prompt_user
+
+# Display next step ... ignore
+cat <<EOC
+for user in \$(cat /etc/passwd | cut -f 1 -d :)
+do
+	# Displays the current user
+	echo "USER: \$user"
+
+	# Saves the username to users.txt
+	echo \$user >> users.txt
+done
+EOC
+
+prompt_user
+
+
+#
+# A loop that processes the /etc/passwd file and cuts out the username
+# and stores the usernames in a file called users.txt
+#
+for user in $(cat /etc/passwd | cut -f 1 -d :)
+do
+	# Displays the current user
+	echo "USER: $user"
+
+	# Saves the username to users.txt
+	echo $user >> users.txt
+done
+
+prompt_user
+
+echo "Inspect the two files created: "
+echo
+
+ls -l md5.txt users.txt
+
+echo
+
+# EOF

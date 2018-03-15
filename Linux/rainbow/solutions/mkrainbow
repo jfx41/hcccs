@@ -1,0 +1,28 @@
+#!/bin/bash
+
+RAINBOW_TABLE="rainbow.db" # The DB name for your rainbow table
+
+#
+# 1. Loop through all of the words in words.txt
+# 2. Generate an MD5 (no \n) and store it in a variable
+# 3. Create a variable in the format: MD5:word
+# 3. Store that variable in a file (append mode)
+#
+
+# 1. Loop through all of the words in words.txt and generate and MD5.
+for word in $(cat words.txt)
+do
+	# Show what word is being processed
+	echo "Hashing: $word"
+
+	# 2. Generate an MD5 (no \n) and store it in a variable
+	md5=$(echo -n $word | md5sum | cut -f 1 -d ' ')
+	
+	# 3. Create a variable in the format: MD5:word
+	rainbow="$md5:$word"
+
+	# Store the MD5:word entry in the rainbow.db file
+	echo $rainbow >> $RAINBOW_TABLE
+done
+
+# EOF

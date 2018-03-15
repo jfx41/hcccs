@@ -1,0 +1,18 @@
+#!/bin/bash
+
+RAINBOW_TABLE="rainbow.db" # Rainbow table DB
+
+# If no argument was given, print out a usage statement
+if [ -z "$1" ]
+then
+	echo "usage: $0 MD5"
+	exit 1
+fi
+
+#
+# 1. grep for the MD5 ($1) in $RAINBOW_TABLE and cut the second field on :
+#
+grep -i ^$1 $RAINBOW_TABLE | cut -f 2 -d :
+
+
+# EOF

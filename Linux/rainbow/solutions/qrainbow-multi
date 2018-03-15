@@ -1,0 +1,43 @@
+#!/bin/bash
+
+RAINBOW_TABLE="rainbow.db" # Rainbow table DB
+
+# If no argument was given, print out a usage statement
+if [ -z "$1" ]
+then
+	echo "usage: $0 <MD5 | word>"
+	exit 1
+fi
+
+# Get  the length of the argument
+len=$(echo -n $1 | wc -c)
+
+# If it's 32 bytes long, it's a hash.
+if [ $len == 32 ]
+then
+	field=2 # For cut to give the word value
+# If it's not, it's a word
+else
+	field=1 # For cut to give the MD5 value
+fi
+
+# We want to grep for the word
+if [ $field == 1 ]
+then
+	# Look for something that starts with :word and then end of line ($)
+	value=$(grep -i ":$1$" $RAINBOW_TABLE | cut -f $field -d :)
+# This would be field == 2
+else
+	# Look for something that starts with MD5: (^)
+	value=$(grep -i ^$1: $RAINBOW_TABLE | cut -f $field -d :)
+fi
+
+# If $value is empty (-z)
+if [ -z "$value" ]
+then
+	echo "No match for: $1"
+else
+	echo $value
+fi
+
+# EOF
