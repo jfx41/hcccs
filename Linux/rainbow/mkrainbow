@@ -3,7 +3,7 @@
 RAINBOW_TABLE="rainbow.db" # The DB name for your rainbow table
 
 #
-# 1. Loop through all of the words in words.txt
+# 1. Loop (for) through all of the words in words.txt
 # 2. Generate an MD5 (no \n) and store it in a variable
 # 3. Create a variable in the format: MD5:word
 # 4. Store that variable in $RAINBOW_TABLE (append mode: >>)
